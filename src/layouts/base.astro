@@ -1,0 +1,33 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  nav?: boolean;
+  mob?: boolean;
+}
+
+import BaseHead from "~/layouts/head.astro";
+import Nav from "~/layouts/nav.astro";
+import "@fontsource/geist-mono";
+
+const { title, description, nav = true } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    {title && description && <BaseHead {title} {description} />}
+  </head>
+  <body class="relative">
+    {nav && <Nav />}
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <div class="max-w-md mx-auto pt-48 text-neutral-700">
+          <slot />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,16 +1,150 @@
 ---
+import { Button } from "~/components/button";
+import { IndicatorCard } from "~/components/indicator-card";
+import { IndicatorList } from "~/components/indicator-list";
+import { PersonasSection } from "~/components/persona-section";
+import Layout from "~/layouts/base.astro";
+import { MedicalIndicator } from "~/utils/indicator";
 
+const indicators = [
+  {
+    indicator: new MedicalIndicator(90.0, "g/dL", "Гематокрит"),
+    status: "normal" as const,
+  },
+  {
+    indicator: new MedicalIndicator(90.0, "g/dL", "Гемоглобин"),
+    status: "high" as const,
+  },
+  {
+    indicator: new MedicalIndicator(90.0, "g/dL", "Гематокрит"),
+    status: "normal" as const,
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Hemo AI"
+  description="Hemo AI ваш личный советник который раскроет ваще здоровью на результате анализов крови"
+>
+  <h1 class="font-medium text-4xl leading-[90%]">
+    Возьмите в контроль над вашим здоровьем
+  </h1>
+  <p class="font-mono text-neutral-500 text-sm font-medium pt-5">
+    Hemo ваш личный советник который раскроет ваще здоровью на результате
+    анализов крови
+  </p>
+
+  <div class="flex items-center gap-4 pt-10">
+    <Button>Начать работу</Button>
+    <p class="text-neutral-300 font-">Пока в бете</p>
+  </div>
+
+  <section class="relative flex mt-20 -left-1/4">
+    <div class="-rotate-[8deg] my-12">
+      <IndicatorCard
+        indicator={new MedicalIndicator(90.0, "g/dL", "Гемоглобин")}
+        status={"high"}
+        description=`Причины снижения гемоглобина равного 90.0 г/л могут быть следующими:
+1. Железодефицитная анемия.
+2. B12 и фолиево-дефицитная анемия.
+3. Внутренние кровотечения: язвы, геморрой, полипы, донорство крови...`
+      />
+    </div>
+    <div class="rotate-6 -ml-10 mt-5">
+      <IndicatorList indicators={indicators} client:load className="w-80" />
+    </div>
+  </section>
+
+  <PersonasSection client:load />
+
+  <section class="py-12">
+    <h2 class="text-2xl mb-4 text-neutral-800">Как это работает?</h2>
+    <ol class="gap-2 flex flex-col font-mono font-medium text-neutral-500">
+      <li>Вы проходите анализ и получаете ваши показатели</li>
+      <li>
+        <span class="text-red-500">Hemo Labs</span> анализирует их и дает подробные
+        рекомендации
+      </li>
+      <li>
+        Вы получаете <span class="text-sky-500">полную картину</span> вашего здоровья
+      </li>
+    </ol>
+  </section>
+
+  <section class="py-6 mt-16">
+    <h2 class="text-2xl text-neutral-800 mb-8" id="services">Сервисы</h2>
+    <div class="flex gap-5">
+      <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
+        <div
+          class="flex flex-col grow justify-between p-3 text-red-500 rounded-xl border border-rose-300 shadow-sm h-28"
+        >
+          <div class="text-lg leading-5">Расшифровка <br /> общего анализа</div>
+          <div class="text-sm font-medium font-mono">1350₸</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- 
+import * as React from "react";
+
+
+      {/* Reusable section component */}
+      <Section
+        title="Как это работает?"
+        content={
+          <>
+            <span className="font-medium">1 Вы проходите анализ и получаете ваши показатели </span>
+            <br />
+            <span className="font-medium">2 Hemo Labs </span>
+            анализирует их и дает подробные рекомендации
+            <br />
+            <span className="font-medium">3 Вы получаете полную </span> картину вашего здоровья
+          </>
+        }
+      />
+
+      <Section title="Сервисы" content="Hemo Labs анализирует их и дает подробные рекомендации. Вы получаете полную картину вашего здоровья" />
+
+      <div className="mt-32 text-xl font-medium leading-5 text-center bg-clip-text max-md:mt-10">Готовы познать свое здоровье?</div>
+
+      <div className="flex flex-col items-center mt-16">
+        <Button text="Начать работу" additionalClasses="mt-8 " />
+      </div>
+    </main>
+
+<aside className="px-4 py-5 mt-36 max-w-full bg-white rounded-xl border border-solid shadow-lg border-neutral-100 w-[420px] max-md:pr-5 max-md:mt-10">
+<div className="flex gap-5 max-md:flex-col max-md:gap-0">
+<div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full"> <div className="flex grow gap-1.5 mt-14 text-rose-400 whitespace-nowrap max-md:mt-10"> <div className="justify-center px-1.5 py-4 text-2xl leading-6 bg-rose-200 rounded-xl shadow-sm"> H </div> <div className="text-4xl italic tracking-tighter font-[508]"> labs </div> </div> </div> <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full"> <div className="flex flex-col grow justify-center text-sm leading-4 text-neutral-500 max-md:mt-10"> <div>Позвони нам</div> <div className="mt-1 text-gray-900">+7 771 434 7809</div> <div className="mt-4">Напиши нам</div> <div className="mt-1 text-gray-900"> saparovalmas0@gmail.com </div> </div> </div> </div> </aside>
+
+    <footer>
+      <img alt="Illustration" src="https://cdn.builder.io/api/v1/image/assets/TEMP/171e775d73fc95a5aac9e557554d06e1a42bf91e9f41b58efb2f02671e55033d?apiKey=618d1fe797f04b168b8d291b9af8dec7&" className="mt-3 max-w-full aspect-[1.59] w-[420px]" />
+      <div className="mt-44 text-xl font-medium leading-5 text-neutral-600 max-md:mt-10">Как это работает?</div>
+      <div className="mt-4 text-base font-semibold bg-clip-text text-neutral-500">
+        <span className="font-medium">1 Вы проходите анализ и получаете ваши показатели </span> <br />
+        <span className="font-medium">2 Hemo Labs </span>анализирует их и дает подробные рекомендации <br />
+        <span className="font-medium">3 Вы получаете полную картину вашего здоровья</span>
+      </div>
+      <div className="mt-36 text-xl font-medium leading-5 text-neutral-600 max-md:mt-10">Сервисы</div>
+      <section className="justify-center px-10 py-2.5 mt-8 max-w-full w-[420px] max-md:px-5">
+        <div className="flex gap-5 max-md:flex-col max-md:gap-0">
+          <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
+            <div className="flex flex-col grow justify-between py-3 pl-3 w-full text-red-500 rounded-xl border border-rose-300 border-solid shadow-lg">
+              <div className="text-base leading-4">Расшифровка общего анализа</div>
+              <div className="mt-11 text-sm font-medium">1350₸</div>
+            </div>
+          </div>
+          <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
+            <div className="flex flex-col grow justify-between py-3 pl-3 w-full rounded-xl border border-solid shadow-lg border-neutral-100">
+              <div className="text-base leading-4 text-gray-900">Полный план диеты на основе анализа</div>
+              <div className="mt-7 text-sm font-medium text-zinc-500">7500₸</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </footer>
+  </div>
+);
+
+export default MyComponent; -->
