@@ -5,6 +5,7 @@ import { IndicatorList } from "~/components/indicator-list";
 import { PersonasSection } from "~/components/persona-section";
 import { ServicesSection } from "~/components/services-section";
 import Layout from "~/layouts/base.astro";
+import Footer from "~/layouts/footer.astro";
 import { MedicalIndicator } from "~/utils/indicator";
 
 const indicators = [
@@ -73,6 +74,7 @@ const indicators = [
   </section>
 
   <ServicesSection client:load />
+  <Footer />
 </Layout>
 
 <!-- 
@@ -107,32 +109,7 @@ import * as React from "react";
 <div className="flex gap-5 max-md:flex-col max-md:gap-0">
 <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full"> <div className="flex grow gap-1.5 mt-14 text-rose-400 whitespace-nowrap max-md:mt-10"> <div className="justify-center px-1.5 py-4 text-2xl leading-6 bg-rose-200 rounded-xl shadow-sm"> H </div> <div className="text-4xl italic tracking-tighter font-[508]"> labs </div> </div> </div> <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full"> <div className="flex flex-col grow justify-center text-sm leading-4 text-neutral-500 max-md:mt-10"> <div>Позвони нам</div> <div className="mt-1 text-gray-900">+7 771 434 7809</div> <div className="mt-4">Напиши нам</div> <div className="mt-1 text-gray-900"> saparovalmas0@gmail.com </div> </div> </div> </div> </aside>
 
-    <footer>
-      <img alt="Illustration" src="https://cdn.builder.io/api/v1/image/assets/TEMP/171e775d73fc95a5aac9e557554d06e1a42bf91e9f41b58efb2f02671e55033d?apiKey=618d1fe797f04b168b8d291b9af8dec7&" className="mt-3 max-w-full aspect-[1.59] w-[420px]" />
-      <div className="mt-44 text-xl font-medium leading-5 text-neutral-600 max-md:mt-10">Как это работает?</div>
-      <div className="mt-4 text-base font-semibold bg-clip-text text-neutral-500">
-        <span className="font-medium">1 Вы проходите анализ и получаете ваши показатели </span> <br />
-        <span className="font-medium">2 Hemo Labs </span>анализирует их и дает подробные рекомендации <br />
-        <span className="font-medium">3 Вы получаете полную картину вашего здоровья</span>
-      </div>
-      <div className="mt-36 text-xl font-medium leading-5 text-neutral-600 max-md:mt-10">Сервисы</div>
-      <section className="justify-center px-10 py-2.5 mt-8 max-w-full w-[420px] max-md:px-5">
-        <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-          <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-            <div className="flex flex-col grow justify-between py-3 pl-3 w-full text-red-500 rounded-xl border border-rose-300 border-solid shadow-lg">
-              <div className="text-base leading-4">Расшифровка общего анализа</div>
-              <div className="mt-11 text-sm font-medium">1350₸</div>
-            </div>
-          </div>
-          <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-            <div className="flex flex-col grow justify-between py-3 pl-3 w-full rounded-xl border border-solid shadow-lg border-neutral-100">
-              <div className="text-base leading-4 text-gray-900">Полный план диеты на основе анализа</div>
-              <div className="mt-7 text-sm font-medium text-zinc-500">7500₸</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </footer>
+   
   </div>
 );
 
