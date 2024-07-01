@@ -3,6 +3,7 @@ import { Button } from "~/components/button";
 import { IndicatorCard } from "~/components/indicator-card";
 import { IndicatorList } from "~/components/indicator-list";
 import { PersonasSection } from "~/components/persona-section";
+import { ServicesSection } from "~/components/services-section";
 import Layout from "~/layouts/base.astro";
 import { MedicalIndicator } from "~/utils/indicator";
 
@@ -71,19 +72,7 @@ const indicators = [
     </ol>
   </section>
 
-  <section class="py-6 mt-16">
-    <h2 class="text-2xl text-neutral-800 mb-8" id="services">Сервисы</h2>
-    <div class="flex gap-5">
-      <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-        <div
-          class="flex flex-col grow justify-between p-3 text-red-500 rounded-xl border border-rose-300 shadow-sm h-28"
-        >
-          <div class="text-lg leading-5">Расшифровка <br /> общего анализа</div>
-          <div class="text-sm font-medium font-mono">1350₸</div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <ServicesSection client:load />
 </Layout>
 
 <!-- 
