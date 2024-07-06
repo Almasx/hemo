@@ -62,7 +62,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({
   status,
   description,
 }) => (
-  <article className="flex flex-col gap-3 border-neutral-100 bg-white p-3 border rounded-xl w-[340px]">
+  <article className="flex flex-col gap-3 border-neutral-100 bg-white p-3 border rounded-xl w-72">
     <IndicatorChip indicator={indicator} status={status} minimized />
     <p
       className={cn(

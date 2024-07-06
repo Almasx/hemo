@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 
 export const PersonasSection = () => {
   return (
-    <Tabs defaultValue="ill" className="flex flex-col my-32">
+    <Tabs defaultValue="ill" className="flex flex-col my-32 h-[335px]">
       <TabsList>
         <TabsTrigger value="ill">Болеешь часто?</TabsTrigger>
         <TabsTrigger value="tired">Устал?</TabsTrigger>

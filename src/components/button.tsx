@@ -16,7 +16,7 @@ export const Button = ({
   return (
     <button
       className={cn(
-        "rounded-xl border border-neutral-200 ",
+        "rounded-xl border border-neutral-200 hover:scale-105 transform transition duration-200  ",
         size === "sm" && "px-2 py-1",
         size === "md" && "px-3 py-1.5",
         size === "lg" && "px-4 py-2",
