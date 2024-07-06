@@ -1,46 +1,127 @@
+import useEmblaCarousel from "embla-carousel-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
+import { useState, useCallback, useRef, useEffect } from "react";
+import type { EmblaCarouselType, EmblaEventType } from "embla-carousel";
+import { cn } from "~/utils/cn";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+type Persona = "tired" | "ill";
+const personas = ["tired", "ill"];
 
 export const PersonasSection = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [persona, setPersona] = useState<Persona>("tired");
+
+  const handleTab = useCallback(
+    (value: string) => {
+      if (emblaApi) {
+        emblaApi.scrollTo(personas.findIndex((p) => p === value));
+        setPersona(value as Persona);
+      }
+    },
+    [emblaApi]
+  );
+
+  const handleSlide = useCallback(
+    (emblaApi: EmblaCarouselType, eventName: EmblaEventType) => {
+      const personaIndex = emblaApi.slidesInView()[0];
+      if (personas[personaIndex] !== persona) {
+        setPersona(personas[personaIndex]! as Persona);
+      }
+    },
+    [persona]
+  );
+
+  useEffect(() => {
+    if (emblaApi) emblaApi.on("slidesChanged", handleSlide);
+  }, [emblaApi, handleSlide]);
+
   return (
-    <Tabs defaultValue="ill" className="flex flex-col my-32 h-[335px]">
+    <Tabs
+      defaultValue="ill"
+      className="flex flex-col gap-3 my-32"
+      value={persona}
+      onValueChange={handleTab}
+    >
       <TabsList>
-        <TabsTrigger value="ill">Болеешь часто?</TabsTrigger>
         <TabsTrigger value="tired">Устал?</TabsTrigger>
+        <TabsTrigger value="ill">Болеешь часто?</TabsTrigger>
       </TabsList>
-      <Persona
-        value="ill"
-        bubbleText={"Почему я всегда устал, \nдаже после ночного сна?"}
-        chipText="дефицит витамин D, гормоны щитовидной железы"
-      />
-      <Persona
-        value="tired"
-        bubbleText={"Почему я так часто болею?"}
-        chipText="дефицит лейкоцитов, маркеры воспаления"
-      />
+      <div className="rounded-xl overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          <Persona
+            value="tired"
+            bubbleText={"Почему я всегда устал, \nдаже после ночного сна?"}
+            chipText="дефицит витамин D, гормоны щитовидной железы"
+            active={persona === "tired"}
+          />
+          <Persona
+            value="ill"
+            bubbleText="Почему я так часто болею?"
+            chipText="дефицит лейкоцитов, маркеры воспаления"
+            active={persona === "ill"}
+            last
+          />
+        </div>
+      </div>
     </Tabs>
   );
 };
 
-interface Persona {
+interface PersonaProps {
   value: string;
   bubbleText: string;
   chipText: string;
+  active?: boolean;
+  last?: boolean;
 }
 
-const Persona: React.FC<Persona> = ({ value, bubbleText, chipText }) => (
-  <TabsContent value={value} className="relative rounded-xl overflow-hidden">
-    <img src={`/${value}.png`} alt="illustration" className="w-full" />
-    <BubbleText text={bubbleText} />
-    <div className="right-1.5 bottom-1.5 absolute flex gap-1">
-      <div className="text-neutral-400 text-xs" style={chipStyle}>
-        {chipText}
-      </div>
-      <div className="justify-center !p-0 w-5 text-red-500" style={chipStyle}>
-        !
+const Persona: React.FC<PersonaProps> = ({
+  value,
+  bubbleText,
+  chipText,
+  active,
+  last,
+}) => {
+  const container = useRef(null);
+  useGSAP(
+    () => {
+      active &&
+        gsap.from(".bubbleText", {
+          duration: 1,
+          rotation: 5,
+          y: 50,
+          opacity: 1,
+          ease: "back.out(0.1)",
+          transformOrigin: "left top",
+        });
+    },
+    { scope: container, dependencies: [active] }
+  );
+
+  return (
+    <div
+      className={cn(
+        "relative rounded-xl min-w-0 overflow-hidden",
+        !last && "mr-3"
+      )}
+      style={{ flex: "0 0 100%" }}
+      ref={container}
+    >
+      <img src={`/${value}.png`} alt="illustration" className="w-full" />
+      <BubbleText text={bubbleText} />
+      <div className="right-1.5 bottom-1.5 absolute flex gap-1">
+        <div className="text-neutral-400 text-xs" style={chipStyle}>
+          {chipText}
+        </div>
+        <div className="justify-center !p-0 w-5 text-red-500" style={chipStyle}>
+          !
+        </div>
       </div>
     </div>
-  </TabsContent>
-);
+  );
+};
 
 const chipStyle: React.CSSProperties = {
   background:
@@ -55,7 +136,7 @@ const chipStyle: React.CSSProperties = {
 
 const BubbleText: React.FC<{ text: string }> = ({ text }) => {
   return (
-    <div className="top-5 left-3 z-10 absolute">
+    <div className="top-5 left-3 z-10 absolute bubbleText">
       <div
         className="relative z-10 backdrop-blur-xl px-3.5 py-2 pb-2.5 rounded-xl text-base leading-4 whitespace-pre"
         style={{

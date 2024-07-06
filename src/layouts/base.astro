@@ -3,14 +3,16 @@ interface Props {
   title?: string;
   description?: string;
   nav?: boolean;
+  loader?: boolean;
   mob?: boolean;
 }
 
 import BaseHead from "~/layouts/head.astro";
 import Nav from "~/layouts/nav.astro";
+import Loader from "~/layouts/loader.astro";
 import "@fontsource/geist-mono";
 
-const { title, description, nav = true } = Astro.props;
+const { title, description, nav = true, loader = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,6 +23,7 @@ const { title, description, nav = true } = Astro.props;
   </head>
   <body class="relative">
     {nav && <Nav />}
+    {loader && <Loader />}
 
     <div id="smooth-wrapper">
       <div id="smooth-content">

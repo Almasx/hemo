@@ -31,7 +31,7 @@ export const IndicatorChip: React.FC<IndicatorChipProps> = ({
               : "#F8F8F8",
         }}
       >
-        <p className="font-medium font-mono text-sm">
+        <p className="font-medium font-mono text-sm leading-3">
           {indicator.label}
           {!minimized && `, ${indicator.unit}`}
         </p>

@@ -1,0 +1,31 @@
+---
+
+---
+
+<div class="fixed w-screen z-10 bg-white loader">
+  <div
+    class="max-w-md mx-auto h-screen grid place-items-center overflow-hidden"
+  >
+    <img src="/logo.svg" alt="logo" class="h-40 logo" />
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to(".loader", {
+    opacity: 0,
+    ease: "elastic.in-out",
+    duration: 0.5,
+    delay: 0.5,
+  });
+
+  gsap.to(".loader", {
+    display: "hidden",
+    delay: 1,
+  });
+</script>
