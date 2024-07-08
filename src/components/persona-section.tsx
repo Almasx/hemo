@@ -103,7 +103,7 @@ const Persona: React.FC<PersonaProps> = ({
   return (
     <div
       className={cn(
-        "relative rounded-xl min-w-0 overflow-hidden",
+        "relative rounded-xl min-w-0 overflow-hidden ",
         !last && "mr-3"
       )}
       style={{ flex: "0 0 100%" }}
@@ -111,11 +111,17 @@ const Persona: React.FC<PersonaProps> = ({
     >
       <img src={`/${value}.png`} alt="illustration" className="w-full" />
       <BubbleText text={bubbleText} />
-      <div className="right-1.5 bottom-1.5 absolute flex gap-1">
-        <div className="text-neutral-400 text-xs" style={chipStyle}>
+      <div className="right-1.5 bottom-1.5 left-1.5 sm:left-auto absolute flex gap-1">
+        <div
+          className="text-ellipsis text-neutral-400 text-xs whitespace-nowrap overflow-hidden"
+          style={chipStyle}
+        >
           {chipText}
         </div>
-        <div className="justify-center !p-0 w-5 text-red-500" style={chipStyle}>
+        <div
+          className="justify-center !p-0 w-5 text-red-500 shrink-0"
+          style={chipStyle}
+        >
           !
         </div>
       </div>

@@ -38,7 +38,7 @@ export const IndicatorChip: React.FC<IndicatorChipProps> = ({
         <span className="bg-white/50 p-1 rounded-full text-xs">{status}</span>
       </div>
       {!minimized && status !== "normal" && (
-        <div className="gap-2 grid grid-cols-2 text-neutral-400 duration-150">
+        <div className="gap-2 hidden sm:grid grid-cols-2 text-neutral-400 duration-150">
           <button
             className="rounded-lg h-5 text-xs hover:text-neutral-500 whitespace-nowrap"
             style={{ boxShadow: "inset 0 0 4px #f4f4f4" }}

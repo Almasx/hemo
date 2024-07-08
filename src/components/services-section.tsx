@@ -13,7 +13,7 @@ export const ServicesSection = () => {
       <h2 className="mb-8 text-2xl text-center text-neutral-700" id="services">
         Сервисы
       </h2>
-      <div className="flex flex-1 gap-5 px-5">
+      <div className="flex flex-1 gap-3 sm:gap-5 sm:px-5 sm:scale-100 scale-95">
         <ServiceCard
           active={activeService === "simple"}
           label={"Расшифровка \nобщего анализа"}
