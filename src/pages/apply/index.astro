@@ -1,0 +1,15 @@
+---
+import Layout from "~/layouts/base.astro";
+import { ApplyForm } from "~/pages/apply/_components/form";
+---
+
+<Layout
+  title="Hemo AI"
+  description="Hemo AI ваш личный советник который раскроет ваще здоровью на результате анализов крови"
+>
+  <h1 class="font-meduim text-2xl leading-none mb-3">Заполните форму</h1>
+  <p class="font-mono text-sm font-meduim text-neutral-500 mb-9">
+    Hemo–личный советник расшифрует на базе ваших медицинских данных
+  </p>
+  <ApplyForm client:load />
+</Layout>

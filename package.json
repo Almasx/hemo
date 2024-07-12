@@ -15,8 +15,11 @@
     "@astrojs/tailwind": "^5.1.0",
     "@fontsource/geist-mono": "^5.0.3",
     "@gsap/react": "^2.1.1",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "astro": "^4.11.3",
@@ -27,9 +30,11 @@
     "lucide-react": "^0.399.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.4",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "zod": "^3.23.8"
   }
 }
