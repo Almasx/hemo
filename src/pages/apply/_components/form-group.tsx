@@ -7,17 +7,31 @@ import {
   FormMessage,
 } from "~/components/form";
 import { Input } from "~/components/input";
-import { useLabels, useSubForm } from "./utils";
+import { useFieldsVisibility, useLabels, useSubForm } from "./utils";
+import { cn } from "~/utils/cn";
+import { ToggleFields } from "./toggle-fields";
+import { useEffect } from "react";
 
 type FormGroupProps = {
   form: UseFormReturn<any>;
   subFormScheme: any;
-  onHide?: () => void;
+  onHide: () => void;
 };
 
 export const FormGroup = ({ form, subFormScheme, onHide }: FormGroupProps) => {
   const subForm = useSubForm<any>(form);
   const labels = useLabels(subFormScheme);
+
+  const { fieldVisibilityMap, showField, hideField } = useFieldsVisibility(
+    Object.keys(subFormScheme.shape),
+    true
+  );
+
+  useEffect(() => {
+    if (!Object.values(fieldVisibilityMap).some((show) => show)) {
+      onHide();
+    }
+  }, [fieldVisibilityMap]);
 
   return (
     <div className="flex flex-col gap-3 col-span-2 my-3">
@@ -25,34 +39,55 @@ export const FormGroup = ({ form, subFormScheme, onHide }: FormGroupProps) => {
         {subFormScheme.description}
         <Hide onHide={onHide} />
       </h3>
-      {Object.keys(subFormScheme.shape).map((fieldKey) => (
-        <FormField
-          key={fieldKey}
-          control={subForm.control}
-          name={`${subFormScheme.description}.${fieldKey}` as any}
-          render={({ field }) => (
-            <FormItem className="col-span-full">
-              <FormLabel>{labels[fieldKey] as string}</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={`Введите ${labels[fieldKey] as string}`}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      ))}
+      {Object.keys(subFormScheme.shape).map(
+        (fieldKey) =>
+          fieldVisibilityMap[fieldKey] && (
+            <FormField
+              key={fieldKey}
+              control={subForm.control}
+              name={`${subFormScheme.description}.${fieldKey}` as any}
+              render={({ field }) => (
+                <FormItem className="col-span-full group">
+                  <FormLabel className="flex items-center gap-2">
+                    <Hide
+                      className="group-hover:size-5 group-hover:m-0 -mr-2 duration-300 overflow-hidden size-0"
+                      onHide={() => hideField(fieldKey)}
+                    />
+                    {labels[fieldKey] as string}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={`Введите ${labels[fieldKey] as string}`}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )
+      )}
+
+      <ToggleFields
+        fieldVisibilityMap={fieldVisibilityMap}
+        labels={labels as any}
+        showField={showField}
+      />
     </div>
   );
 };
 
-export const Hide: React.FC<{ onHide?: () => void }> = ({ onHide }) => {
+interface HideProps extends React.InputHTMLAttributes<HTMLDivElement> {
+  onHide?: () => void;
+}
+export const Hide: React.FC<HideProps> = ({ onHide, className }) => {
   return (
     <div
       onClick={onHide}
-      className="place-items-center grid bg-gradient-to-b from-neutral-50 hover:from-red-50 to-neutral-100 hover:to-red-100 rounded-md text-neutral-400 hover:text-red-400 duration-300 aspect-square size-[18px]"
+      className={cn(
+        "place-items-center grid bg-gradient-to-b from-neutral-50 hover:from-red-50 to-neutral-100 hover:to-red-100 rounded-md text-neutral-400 hover:text-red-400 aspect-square size-5",
+        className
+      )}
     >
       <svg
         width="20"

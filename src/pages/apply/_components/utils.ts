@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useReducer, useState } from "react";
 import type { FieldValues, UseFormReturn } from "react-hook-form";
+import { boolean } from "zod";
 
 export const useSubForm = <
   TFieldValues extends FieldValues = FieldValues,
@@ -12,12 +13,13 @@ export const useFieldsVisibility = <
   T extends string,
   FieldVisibilityMap extends Record<T, boolean>
 >(
-  fields: T[]
+  fields: T[],
+  defaultValue?: boolean
 ) => {
   const [fieldVisibilityMap, setComponentVisibility] =
     useState<FieldVisibilityMap>(
       fields.reduce(
-        (acc, current) => ({ ...acc, [current]: false }),
+        (acc, current) => ({ ...acc, [current]: defaultValue ?? false }),
         {} as FieldVisibilityMap
       )
     );
