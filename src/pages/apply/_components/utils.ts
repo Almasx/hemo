@@ -22,12 +22,15 @@ export const useFieldsVisibility = <
       )
     );
 
-  const toggleVisibility = useCallback((field: T, visibility: boolean) => {
-    setComponentVisibility({
-      ...fieldVisibilityMap,
-      [field]: visibility,
-    });
-  }, []);
+  const toggleVisibility = useCallback(
+    (field: T, visibility: boolean) => {
+      setComponentVisibility({
+        ...fieldVisibilityMap,
+        [field]: visibility,
+      });
+    },
+    [fieldVisibilityMap]
+  );
 
   const showField = useCallback(
     (field: T) => toggleVisibility(field, true),
@@ -39,4 +42,15 @@ export const useFieldsVisibility = <
   );
 
   return { fieldVisibilityMap, showField, hideField };
+};
+
+export const useLabels = (
+  schema: Zod.ZodObject<any>
+): Record<string, string | undefined> => {
+  return Object.keys(schema.shape).reduce((acc, key) => {
+    if ((schema.shape as any)[key]) {
+      return { ...acc, [key]: (schema.shape as any)[key].description };
+    }
+    return acc;
+  }, {});
 };

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../../../components/button";
+import { Button } from "~/components/button";
 import {
   Form,
   FormField,
@@ -9,21 +9,14 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "../../../components/form";
-import { Input } from "../../../components/input";
-import { Tabs, TabsList, TabsTrigger } from "../../../components/tabs";
+} from "~/components/form";
+import { Input } from "~/components/input";
+import { Tabs, TabsList, TabsTrigger } from "~/components/tabs";
 import { ToggleFields } from "./toggle-fields";
-import { HemoglobinErythrocyte } from "./hemo-form";
-import { useFieldsVisibility } from "./utils";
+import { useFieldsVisibility, useLabels } from "./utils";
 
-const formSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  age: z.number(),
-  sex: z.enum(["male", "female"]),
-  hemoglobin: z.coerce.number(),
-  hemoglobinErythrocyte: HemoglobinErythrocyte.schema,
-});
+import { FormGroup } from "./form-group";
+import { formSchema } from "./scheme";
 
 const ApplyForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,9 +24,13 @@ const ApplyForm = () => {
     defaultValues: { sex: "female" },
   });
 
-  const { fieldVisibilityMap, showField } = useFieldsVisibility([
-    "эритроциты и гемоглобин",
+  const { fieldVisibilityMap, showField, hideField } = useFieldsVisibility([
+    "hemoglobinErythrocyte",
+    "platelets",
+    "leukocytes",
   ] as const);
+
+  const labels = useLabels(formSchema);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -122,10 +119,11 @@ const ApplyForm = () => {
             name="hemoglobin"
             render={({ field }) => (
               <FormItem className="col-span-full">
-                <FormLabel>Гемоглобин, HGB, г/л</FormLabel>
+                <FormLabel>{formSchema.shape.hemoglobin.description}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Введите гемоглобин, HGB, г/л"
+                    className="capitalize"
+                    placeholder={`Введите ${formSchema.shape.hemoglobin.description}`}
                     {...field}
                   />
                 </FormControl>
@@ -133,12 +131,23 @@ const ApplyForm = () => {
               </FormItem>
             )}
           />
-          {fieldVisibilityMap["эритроциты и гемоглобин"] && (
-            <HemoglobinErythrocyte parentForm={form} />
+          {Object.entries(fieldVisibilityMap).map(
+            ([key, shown]) =>
+              shown && (
+                <FormGroup
+                  form={form}
+                  subFormScheme={
+                    formSchema.shape[key as keyof typeof formSchema.shape]
+                  }
+                  key={`group-${key}`}
+                  onHide={() => hideField(key as any)}
+                />
+              )
           )}
 
           <ToggleFields
             fieldVisibilityMap={fieldVisibilityMap}
+            labels={labels as any}
             showField={showField}
           />
         </div>

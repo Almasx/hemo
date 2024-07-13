@@ -3,12 +3,14 @@ import { Chip } from "~/components/chip";
 
 type ToggleFieldsProps<T extends string> = {
   fieldVisibilityMap: Record<T, boolean>;
+  labels: Record<T, string>;
   showField: (field: T) => void;
 };
 
 export const ToggleFields = <T extends string>({
   fieldVisibilityMap,
   showField,
+  labels,
 }: ToggleFieldsProps<T>) => {
   const hiddenFields = useMemo(
     () =>
@@ -19,10 +21,10 @@ export const ToggleFields = <T extends string>({
   );
 
   return (
-    <div className="flex gap-3">
+    <div className="flex flex-wrap gap-2 col-span-full">
       {hiddenFields.map((field) => (
         <Chip onClick={() => showField(field)} key={field}>
-          {field}
+          {labels[field]}
         </Chip>
       ))}
     </div>
